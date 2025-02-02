@@ -1,0 +1,55 @@
+services:
+  scg:
+    image: scg:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eurekaserver
+      - configserver
+
+  configserver:
+    image: configserver:latest
+    ports:
+      - "9000:9000"
+
+
+  eurekaserver:
+    image: eurekaserver:latest
+    expose:
+      - "8761"
+
+  communityserver:
+    image: communityserver:latest
+    expose:
+      - "8081:8081"
+    depends_on:
+      - eurekaserver
+      - configserver
+
+  jobs:
+    image: jobs:latest
+    expose:
+      - "8082"
+    depends_on:
+      - eurekaserver
+      - configserver
+
+  members:
+    image: members:latest
+    expose:
+      - "8084"
+    depends_on:
+      - eurekaserver
+      - configserver
+
+  news:
+    image: news:latest
+    expose:
+      - "8083"
+    depends_on:
+      - eurekaserver
+      - configserver
+
+
+
+
